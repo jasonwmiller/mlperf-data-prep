@@ -1,4 +1,20 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args:
+          - --maxkb=1024
+      - id: check-case-conflict
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args:
+          - --fix=lf
+      - id: trailing-whitespace
+
   - repo: local
     hooks:
       - id: detect-secrets
@@ -12,7 +28,6 @@ repos:
         name: shellcheck
         entry: shellcheck
         language: system
-        types:
-          - shell
+        files: ^(.*\.sh|run_flux_dataset_prep\.sh|status_flux_dataset_prep\.sh|validate_flux_dataset\.sh|publish_flux_dataset_image\.sh)$
         args:
           - --severity=warning

@@ -104,4 +104,3 @@ tail -f /vault/mlperf-data-prep/logs/flux_dataset_prep.log
   `energon/.val_webdataset_complete`.
 - Keep `logs/`, `training_results_v5.1/`, and dataset directories out of git.
 - If editing scripts, run `bash -n` on changed shell scripts before committing.
-
