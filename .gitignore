@@ -1,0 +1,35 @@
+# Runtime logs and process ids
+logs/
+*.log
+*.pid
+
+# Local datasets and generated benchmark data
+mlperf-flux1-dataset/
+cc12m_preprocessed/
+coco_preprocessed/
+empty_encodings/
+energon/
+*.arrow
+*.npy
+*.tar
+*.tgz
+*.md5
+
+# Sparse upstream checkout, kept outside this project repo history
+training_results_v5.1/
+
+# Python/cache/build noise
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# Editor and OS files
+.DS_Store
+*.swp
+*.swo
+*~
