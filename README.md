@@ -243,11 +243,11 @@ cd /vault/mlperf-data-prep
 The generated URL files are written under `logs/` and are intentionally ignored
 by git. The current sidecar layout is:
 
-- `astra`: entries 501-1200, concurrency 8
-- `nebula`: entries 1201-1900, concurrency 8
-- `orbital`: entries 1901-2600, concurrency 8
-- `dgx`: entries 2601-2764, concurrency 8
-- `gx10-e313`: entries 2765-4762, concurrency 8 (`cc12m_tail_2000`)
+- `astra`: entries 501-1200, concurrency 10
+- `nebula`: entries 1201-1900, concurrency 10
+- `orbital`: entries 1901-2600, concurrency 10
+- `dgx`: entries 2601-2764, concurrency 10
+- `gx10-e313`: entries 2765-4762, concurrency 10 (`cc12m_tail_2000`)
 
 Start missing sidecars without interrupting already-running processes:
 

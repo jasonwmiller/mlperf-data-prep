@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DATASET_DIR="${DATASET_DIR:-/vault/mlperf-flux1-dataset}"
 LOG_DIR="${LOG_DIR:-${ROOT_DIR}/logs}"
-CONCURRENCY_DEFAULT="${CONCURRENCY_DEFAULT:-8}"
+CONCURRENCY_DEFAULT="${CONCURRENCY_DEFAULT:-10}"
 RESTART=0
 GENERATE=0
 
