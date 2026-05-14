@@ -56,6 +56,10 @@ rg -n --hidden --no-ignore-vcs \
 - Prefer the checked-in wrapper scripts over retyping long commands.
 - Dataset downloads are resumable. Do not delete partial dataset directories
   unless the user explicitly asks to start over.
+- `cc12m_preprocessed` should come from MLCommons R2 metadata. The official URI
+  is `https://training.mlcommons-storage.org/metadata/flux-1-cc12m-preprocessed.uri`;
+  the matching MD5 list is in `mlcommons/r2-infra`. Use
+  `uv run tools/make_cc12m_aria2_urls.py` for aria2 sidecar URL slices.
 - The image is built and published from Spark nodes, not by GitHub Actions.
 - Use `apply_patch` for repository edits.
 
@@ -80,6 +84,16 @@ Check status:
 
 ```bash
 /vault/mlperf-data-prep/status_flux_dataset_prep.sh /vault/mlperf-flux1-dataset
+```
+
+Generate a second-half R2 URL slice for `aria2c` on `gx10-e313`:
+
+```bash
+uv run /vault/mlperf-data-prep/tools/make_cc12m_aria2_urls.py \
+  --arrow-only \
+  --partitions 2 \
+  --partition-index 2 \
+  --output /vault/mlperf-data-prep/logs/cc12m_r2_part2.urls
 ```
 
 Publish existing local image:

@@ -175,6 +175,62 @@ ssh jwm@gx10-e313 '
 The main `dgx` wrapper uses completion marker files, so it skips completed
 download stages when resumed.
 
+## R2 Metadata And aria2 Slices
+
+The official MLCommons R2 downloader is the authoritative download path. For
+`cc12m_preprocessed`, it reads:
+
+- URI: `https://training.mlcommons-storage.org/metadata/flux-1-cc12m-preprocessed.uri`
+- MD5 list: `https://github.com/mlcommons/r2-infra/blob/main/training/metadata/flux-1-cc12m-preprocessed.md5`
+- Base dataset URL: `https://training.mlcommons-storage.org/flux_1/datasets/cc12m_preprocessed`
+
+The R2 downloader turns the MD5 list into a `wget --input-file` list and runs
+`md5sum -c` after download. The MD5 list contains 4,762 Arrow shards plus
+`state.json` and `dataset_info.json`. Any auxiliary downloader must use the
+same filenames from the official MD5 list so the main R2 downloader can remain
+responsible for final validation.
+
+To generate an `aria2c` URL list for the second half of the official MD5 list:
+
+```bash
+cd /vault/mlperf-data-prep
+uv run tools/make_cc12m_aria2_urls.py \
+  --arrow-only \
+  --partitions 2 \
+  --partition-index 2 \
+  --output logs/cc12m_r2_part2.urls
+```
+
+Start that slice on `gx10-e313` against the shared dataset directory:
+
+```bash
+ssh jwm@gx10-e313 '
+  setsid aria2c \
+    --input-file=/vault/mlperf-data-prep/logs/cc12m_r2_part2.urls \
+    --dir=/vault/mlperf-flux1-dataset/cc12m_preprocessed \
+    --continue=true \
+    --auto-file-renaming=false \
+    --allow-overwrite=false \
+    --conditional-get=true \
+    --file-allocation=none \
+    --max-concurrent-downloads=4 \
+    --max-connection-per-server=4 \
+    --split=4 \
+    --min-split-size=16M \
+    --retry-wait=5 \
+    --max-tries=0 \
+    --summary-interval=60 \
+    --console-log-level=notice \
+    > /vault/mlperf-data-prep/logs/cc12m_r2_part2.gx10.aria2.log 2>&1 < /dev/null &
+  echo $! > /vault/mlperf-data-prep/logs/cc12m_r2_part2.gx10.aria2.pid
+'
+```
+
+This is still an R2 download path; it just uses `aria2c` for parallel HTTP
+fetching on a disjoint slice. Do not create the
+`.cc12m_preprocessed.download_complete` marker from the sidecar. Let the main
+R2 downloader complete and run MD5 verification.
+
 ## Status
 
 Check progress:

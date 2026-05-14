@@ -86,7 +86,22 @@ ssh jwm@gx10-e313 '
 tail -f /vault/mlperf-data-prep/logs/flux_dataset_prep.log
 ```
 
-7. Validate only after preprocessing completes:
+7. If `cc12m_preprocessed` needs extra throughput, generate an `aria2c` URL
+   slice from the official MLCommons R2 `.uri` and `.md5` metadata:
+
+```bash
+uv run /vault/mlperf-data-prep/tools/make_cc12m_aria2_urls.py \
+  --arrow-only \
+  --partitions 2 \
+  --partition-index 2 \
+  --output /vault/mlperf-data-prep/logs/cc12m_r2_part2.urls
+```
+
+Run the sidecar only against the shared `cc12m_preprocessed` directory. Do not
+create `.cc12m_preprocessed.download_complete`; the main R2 downloader must run
+final `md5sum -c` validation.
+
+8. Validate only after preprocessing completes:
 
 ```bash
 /vault/mlperf-data-prep/validate_flux_dataset.sh /vault/mlperf-flux1-dataset
@@ -96,6 +111,9 @@ tail -f /vault/mlperf-data-prep/logs/flux_dataset_prep.log
 
 - Do not delete partial downloads unless the user explicitly asks to start over.
 - The MLCommons downloader uses `wget --continue`; reruns resume.
+- Use official MLCommons R2 metadata for CC12M:
+  `https://training.mlcommons-storage.org/metadata/flux-1-cc12m-preprocessed.uri`
+  plus the matching `flux-1-cc12m-preprocessed.md5` from `mlcommons/r2-infra`.
 - Completion marker files are authoritative for wrapper stages:
   `.cc12m_preprocessed.download_complete`,
   `.coco_preprocessed.download_complete`,

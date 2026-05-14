@@ -42,11 +42,11 @@ done
 echo
 
 echo "local dgx processes:"
-pgrep -af 'run_flux_dataset_prep|mlperf-flux1-dataset-prep|wget --input-file' || true
+pgrep -af 'run_flux_dataset_prep|mlperf-flux1-dataset-prep|wget --input-file|aria2c.*cc12m' || true
 echo
 
 if command -v ssh >/dev/null 2>&1; then
   echo "gx10-e313 processes:"
   ssh -o BatchMode=yes -o ConnectTimeout=5 jwm@gx10-e313 \
-    "pgrep -af 'flux_dataset_aux|wget --input-file' || true" 2>/dev/null || true
+    "pgrep -af 'flux_dataset_aux|wget --input-file|aria2c.*cc12m' || true" 2>/dev/null || true
 fi
