@@ -72,6 +72,12 @@ cd /vault/mlperf-data-prep
 docker build -f Dockerfile.flux-dataset-prep -t mlperf-flux1-dataset-prep:25.09 .
 ```
 
+The image is also published to GHCR from GitHub Actions:
+
+```bash
+docker pull ghcr.io/jasonwmiller/mlperf-data-prep/flux-dataset-prep:25.09
+```
+
 The image installs:
 
 - `datasets`
