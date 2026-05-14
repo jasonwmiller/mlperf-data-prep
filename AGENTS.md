@@ -96,6 +96,13 @@ uv run /vault/mlperf-data-prep/tools/make_cc12m_aria2_urls.py \
   --output /vault/mlperf-data-prep/logs/cc12m_r2_part2.urls
 ```
 
+For the multi-node sidecar layout, prefer the checked-in scripts:
+
+```bash
+/vault/mlperf-data-prep/generate_cc12m_sidecar_slices.sh
+/vault/mlperf-data-prep/start_cc12m_sidecars.sh --restart astra nebula orbital
+```
+
 Publish existing local image:
 
 ```bash

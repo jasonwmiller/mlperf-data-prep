@@ -231,6 +231,40 @@ fetching on a disjoint slice. Do not create the
 `.cc12m_preprocessed.download_complete` marker from the sidecar. Let the main
 R2 downloader complete and run MD5 verification.
 
+## Multi-Node CC12M Sidecars
+
+For the current multi-node download layout, generate the checked-in slice plan:
+
+```bash
+cd /vault/mlperf-data-prep
+./generate_cc12m_sidecar_slices.sh
+```
+
+The generated URL files are written under `logs/` and are intentionally ignored
+by git. The current sidecar layout is:
+
+- `astra`: entries 501-1200, concurrency 8
+- `nebula`: entries 1201-1900, concurrency 8
+- `orbital`: entries 1901-2600, concurrency 8
+- `dgx`: entries 2601-2764, concurrency 8
+- `gx10-e313`: entries 2765-4762, concurrency 8 (`cc12m_tail_2000`)
+
+Start missing sidecars without interrupting already-running processes:
+
+```bash
+./start_cc12m_sidecars.sh --generate
+```
+
+Restart one or more sidecars with the configured concurrency:
+
+```bash
+./start_cc12m_sidecars.sh --restart astra nebula orbital
+```
+
+All sidecars write into `/vault/mlperf-flux1-dataset/cc12m_preprocessed` and
+use `--continue=true`, `--conditional-get=true`, and `--allow-overwrite=false`.
+The official `dgx` R2 downloader remains responsible for final MD5 validation.
+
 ## Status
 
 Check progress:
