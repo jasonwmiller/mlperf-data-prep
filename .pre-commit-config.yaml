@@ -1,0 +1,18 @@
+repos:
+  - repo: local
+    hooks:
+      - id: detect-secrets
+        name: detect-secrets
+        entry: uv run tools/detect_secrets.py check
+        language: system
+        pass_filenames: true
+        exclude: ^(logs/|training_results_v5\.1/)
+
+      - id: shellcheck
+        name: shellcheck
+        entry: shellcheck
+        language: system
+        types:
+          - shell
+        args:
+          - --severity=warning

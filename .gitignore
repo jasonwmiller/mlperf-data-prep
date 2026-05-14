@@ -3,6 +3,17 @@ logs/
 *.log
 *.pid
 
+# Local credentials and environment files
+.env
+.env.*
+!.env.example
+.docker/
+.config/gh/
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
 # Local datasets and generated benchmark data
 mlperf-flux1-dataset/
 cc12m_preprocessed/
@@ -24,6 +35,9 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.uv-cache/
+.venv/
+.venv*/
 build/
 dist/
 *.egg-info/

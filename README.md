@@ -98,6 +98,15 @@ The published image name is:
 ghcr.io/jasonwmiller/mlperf-data-prep/flux-dataset-prep:25.09
 ```
 
+Published GHCR tags:
+
+- `ghcr.io/jasonwmiller/mlperf-data-prep/flux-dataset-prep:25.09`
+- `ghcr.io/jasonwmiller/mlperf-data-prep/flux-dataset-prep:latest`
+
+The `latest` tag is pushed by default. Set `PUSH_LATEST=0` to publish only the
+explicit version tag. These are Linux ARM64 images built for the Spark nodes.
+The MLPerf dataset itself is not published to GHCR.
+
 Publishing requires a GitHub token with `write:packages`. Either export
 `GHCR_TOKEN` or authenticate `gh` with that scope before running the script:
 
@@ -232,3 +241,26 @@ The validator checks that:
 - Main log: `/vault/mlperf-data-prep/logs/flux_dataset_prep.log`
 - Aux log: `/vault/mlperf-data-prep/logs/flux_dataset_aux_downloads.gx10.log`
 - Dataset: `/vault/mlperf-flux1-dataset`
+
+## Development Checks
+
+Install hooks:
+
+```bash
+cd /vault/mlperf-data-prep
+pre-commit install
+```
+
+Run all checks:
+
+```bash
+pre-commit run --all-files
+```
+
+The secret scanner is invoked through `uv run tools/detect_secrets.py`, which
+uses PEP 723 inline dependency metadata. Refresh the baseline only after
+intentional scanner/config changes:
+
+```bash
+uv run tools/detect_secrets.py update
+```
