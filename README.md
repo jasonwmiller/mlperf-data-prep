@@ -213,7 +213,7 @@ ssh jwm@gx10-e313 '
     --allow-overwrite=false \
     --conditional-get=true \
     --file-allocation=none \
-    --max-concurrent-downloads=4 \
+    --max-concurrent-downloads=6 \
     --max-connection-per-server=4 \
     --split=4 \
     --min-split-size=16M \
