@@ -72,10 +72,24 @@ cd /vault/mlperf-data-prep
 docker build -f Dockerfile.flux-dataset-prep -t mlperf-flux1-dataset-prep:25.09 .
 ```
 
-The image is also published to GHCR from GitHub Actions:
+The image can be published to GHCR from a Spark node:
 
 ```bash
-docker pull ghcr.io/jasonwmiller/mlperf-data-prep/flux-dataset-prep:25.09
+cd /vault/mlperf-data-prep
+./publish_flux_dataset_image.sh 25.09
+```
+
+The published image name is:
+
+```bash
+ghcr.io/jasonwmiller/mlperf-data-prep/flux-dataset-prep:25.09
+```
+
+Publishing requires a GitHub token with `write:packages`. Either export
+`GHCR_TOKEN` or authenticate `gh` with that scope before running the script:
+
+```bash
+gh auth refresh -s write:packages
 ```
 
 The image installs:

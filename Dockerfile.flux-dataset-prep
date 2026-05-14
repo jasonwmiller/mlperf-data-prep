@@ -1,5 +1,8 @@
 FROM nvcr.io/nvidia/pytorch:25.09-py3
 
+LABEL org.opencontainers.image.source="https://github.com/jasonwmiller/mlperf-data-prep"
+LABEL org.opencontainers.image.description="MLPerf Training v5.1 NVIDIA FLUX dataset preparation image"
+
 WORKDIR /workspace/flux
 
 COPY training_results_v5.1/NVIDIA/benchmarks/flux1/implementations/tyche_ngpu16_ngc25.09_nemo/requirements.txt /tmp/flux-requirements.txt
